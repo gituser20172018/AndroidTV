@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Instagram</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Main content string resources-->
+    <string name="hashtag_name_placeholder">Hashtag</string>
+    <string name="txt_btnImgView">View Image</string>
+
+</resources>
