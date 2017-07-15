@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String TAG = this.getClass().getName();
     String imageUrl;
-    int n_image = 0;
+    int mImageCount = 0;
 
     //ArrayList
     String[] urls = new String[256];
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public int getCount() {
-            return n_image;
+            return mImageCount;
         }
 
         public Object getItem(int position) {
@@ -113,11 +113,11 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("MainActivity", "response = " + new Gson().toJson(result));
                     Log.d("MainActivity", "Items = " + result.getItems().size());
 
-                    n_image = result.getItems().size();
+                    mImageCount = result.getItems().size();
                     Item temp_item = new Item();
 
-                    if(n_image > 0){
-                        for (int i = 0; i < n_image; i++)
+                    if(mImageCount > 0){
+                        for (int i = 0; i < mImageCount; i++)
                         {
                             temp_item = result.getItems().get(i);
                             imageUrl = temp_item.getImages().getThumbnail().getUrl();
