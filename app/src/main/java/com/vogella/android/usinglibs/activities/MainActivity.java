@@ -99,12 +99,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         Log.d(TAG,"Perhaps there isn't any pictre");
+                        hud.dismiss();
+                        Toast.makeText(MainActivity.this,"There isn't any image.",Toast.LENGTH_LONG).show();
                     }
                 }
                 else {
                     // response received but request not successful (like 400,401,403 etc)
                     //Handle errors
-
+                    hud.dismiss();
+                    Toast.makeText(MainActivity.this,"Unregistered User",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -113,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
  //               dialog.dismiss();
                 Log.d(TAG, "Failed to fetch media data from instagram profile");
                 t.printStackTrace();
+                hud.dismiss();
+                Toast.makeText(MainActivity.this,"Failed to sent your response.There are some problems",Toast.LENGTH_LONG).show();
             }
         });
     }
