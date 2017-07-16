@@ -1,6 +1,5 @@
 package com.vogella.android.usinglibs.activities;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
 import com.vogella.android.usinglibs.R;
+import com.vogella.android.usinglibs.adapters.ImageAdapter;
 import com.vogella.android.usinglibs.pojo.InstagramProfileData;
 import com.vogella.android.usinglibs.pojo.Item;
 import com.vogella.android.usinglibs.rest.RestClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,11 +37,8 @@ import retrofit.Response;
 public class MainActivity extends AppCompatActivity {
 
     public String TAG = this.getClass().getName();
-    String imageUrl;
     int mImageCount = 0;
-
-    //ArrayList
-    String[] urls = new String[256];
+    ArrayList<String> mImageUrls = new ArrayList<>();
 
     @BindView(R.id.edtHashtag)
     TextView mTxtInstagram;
@@ -49,63 +50,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-    }
 
-//    public class ImageAdapter extends BaseAdapter {
-//        private Context mContext;
-//
-//        public ImageAdapter(Context context) {
-//            mContext = context;
-//        }
-//
-//        public int getCount() {
-//            return mImageCount;
-//        }
-//
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        // create a new ImageView for each item referenced by the Adapter
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ImageView imageView;
-//
-//            int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
-//            int ImgWidth = iDisplayWidth / 3 ;
-//            int ImgHeight = (int) Math.round(ImgWidth * 1.2);
-//            if (convertView == null) {
-//                // if it's not recycled, initialize some attributes
-//
-//                imageView = new ImageView(mContext);
-//                imageView.setLayoutParams(new GridView.LayoutParams( ImgWidth, ImgHeight));
-//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                imageView.setPadding(5, 5, 5, 5);
-//            } else {
-//                imageView = (ImageView) convertView;
-//            }
-//
-//            //show image in imageview
-//            Picasso.with(imageView.getContext()).load(urls[position]).into(imageView);
-//
-//            return imageView;
-//        }
-//    }
+        mTxtInstagram.setText("lizixing118");
+    }
 
     @OnClick(R.id.btnViewImage)
     public void onSubmit() {
+
+        final KProgressHUD hud = KProgressHUD.create(MainActivity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setDetailsLabel("Downloading data")
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
         CharSequence str;
         str =  mTxtInstagram.getText();
 
         RestClient.InstagramApiInterface service = RestClient.getClient();
-        Call<InstagramProfileData> call = service.fetchProfileData("lizixing118");//cuilongzhe
+        Call<InstagramProfileData> call = service.fetchProfileData(str.toString());//cuilongzhe
         call.enqueue(new retrofit.Callback<InstagramProfileData>() {
             @Override
             public void onResponse(Response<InstagramProfileData> response) {
-//                dialog.dismiss();
+
                 if (response.isSuccess()) {
                     // request successful (status code 200, 201)
                     InstagramProfileData result = response.body();
@@ -114,23 +82,26 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("MainActivity", "Items = " + result.getItems().size());
 
                     mImageCount = result.getItems().size();
+
                     Item temp_item = new Item();
-
-                    if(mImageCount > 0){
-                        for (int i = 0; i < mImageCount; i++)
-                        {
+                    String temp_strUrl;
+                    if (mImageCount > 0) {
+                        if (mImageUrls.size() != 0)mImageUrls.clear();
+                        for (int i = 0; i < mImageCount; i++) {
                             temp_item = result.getItems().get(i);
-                            imageUrl = temp_item.getImages().getThumbnail().getUrl();
-                            urls[i] = imageUrl;
-                            Log.d("MainActivity", "img = " + urls[i]);
+                            temp_strUrl = temp_item.getImages().getThumbnail().getUrl();
+                            mImageUrls.add(temp_strUrl);
+
+                            Log.d("MainActivity", "img = " + temp_strUrl);
                         }
-
-
+                        hud.dismiss();
+                        showData();
                     }
                     else{
                         Log.d(TAG,"Perhaps there isn't any pictre");
                     }
-                } else {
+                }
+                else {
                     // response received but request not successful (like 400,401,403 etc)
                     //Handle errors
 
@@ -144,18 +115,25 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
 
- //       Picasso.with(this).load(imageUrl).into(mImv);
+    private void showData() {
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        ImageAdapter mGridviewImageAdapter = new ImageAdapter(this);
+        mGridviewImageAdapter.setCount(mImageCount);
+        mGridviewImageAdapter.setImageResource(mImageUrls);
+
+        int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
+        int ImgWidth = iDisplayWidth / 3 ;
+        int ImgHeight = (int) Math.round(ImgWidth * 1.2);
+        mGridviewImageAdapter.setImageSize( ImgWidth, ImgHeight);
+        gridview.setAdapter(mGridviewImageAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Toast.makeText(MainActivity.this, " " + position, Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
