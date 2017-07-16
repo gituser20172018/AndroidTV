@@ -51,49 +51,49 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    public class ImageAdapter extends BaseAdapter {
-        private Context mContext;
-
-        public ImageAdapter(Context context) {
-            mContext = context;
-        }
-
-        public int getCount() {
-            return mImageCount;
-        }
-
-        public Object getItem(int position) {
-            return null;
-        }
-
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        // create a new ImageView for each item referenced by the Adapter
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView imageView;
-
-            int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
-            int ImgWidth = iDisplayWidth / 3 ;
-            int ImgHeight = (int) Math.round(ImgWidth * 1.2);
-            if (convertView == null) {
-                // if it's not recycled, initialize some attributes
-
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams( ImgWidth, ImgHeight));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(5, 5, 5, 5);
-            } else {
-                imageView = (ImageView) convertView;
-            }
-
-            //show image in imageview
-            Picasso.with(imageView.getContext()).load(urls[position]).into(imageView);
-
-            return imageView;
-        }
-    }
+//    public class ImageAdapter extends BaseAdapter {
+//        private Context mContext;
+//
+//        public ImageAdapter(Context context) {
+//            mContext = context;
+//        }
+//
+//        public int getCount() {
+//            return mImageCount;
+//        }
+//
+//        public Object getItem(int position) {
+//            return null;
+//        }
+//
+//        public long getItemId(int position) {
+//            return 0;
+//        }
+//
+//        // create a new ImageView for each item referenced by the Adapter
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ImageView imageView;
+//
+//            int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
+//            int ImgWidth = iDisplayWidth / 3 ;
+//            int ImgHeight = (int) Math.round(ImgWidth * 1.2);
+//            if (convertView == null) {
+//                // if it's not recycled, initialize some attributes
+//
+//                imageView = new ImageView(mContext);
+//                imageView.setLayoutParams(new GridView.LayoutParams( ImgWidth, ImgHeight));
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                imageView.setPadding(5, 5, 5, 5);
+//            } else {
+//                imageView = (ImageView) convertView;
+//            }
+//
+//            //show image in imageview
+//            Picasso.with(imageView.getContext()).load(urls[position]).into(imageView);
+//
+//            return imageView;
+//        }
+//    }
 
     @OnClick(R.id.btnViewImage)
     public void onSubmit() {
