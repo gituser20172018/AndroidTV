@@ -7,8 +7,6 @@ import com.vogella.android.usinglibs.pojo.InstagramProfileData;
 
 import java.io.IOException;
 
-
-
 import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;

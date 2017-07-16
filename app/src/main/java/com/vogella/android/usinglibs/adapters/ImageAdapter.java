@@ -8,7 +8,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.vogella.android.usinglibs.activities.MainActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private int mImageCount = 0;
     private int mImageWidth = 100, mImageHeight = 100;
-    private List<String> mImageUrlList;
+    private ArrayList<String> mImageUrlList;
 
     public ImageAdapter(Context context) {
         mContext = context;
@@ -37,6 +39,10 @@ public class ImageAdapter extends BaseAdapter {
         mImageWidth = sizeX;
         mImageHeight = sizeY;
     }
+    public void setImageResource(ArrayList<String> mList)
+    {
+        mImageUrlList = mList;
+    }
 
     public Object getItem(int position) {
         return null;
@@ -51,7 +57,6 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
-
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams( mImageWidth, mImageHeight));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -59,7 +64,6 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-
         //show image in imageview
         Picasso.with(imageView.getContext()).load(mImageUrlList.get(position)).into(imageView);
 
