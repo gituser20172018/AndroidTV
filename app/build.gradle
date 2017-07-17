@@ -36,7 +36,9 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta1'
     compile 'com.kaopiz:kprogresshud:1.1.0'
+
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    compile project(':pdk')
     testCompile 'junit:junit:4.12'
 }

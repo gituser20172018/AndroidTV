@@ -33,4 +33,21 @@
         android:layout_marginTop="192dp"
         android:text="Pro-Instagram Manager"
         android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/buttonPinterestByUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="PInterest By User" />
+
+    <Button
+        android:id="@+id/buttonPinterestByHashtag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonPinterestByUser"
+        android:layout_centerHorizontal="true"
+        android:text="PINTEREST BY HASHTAG" />
+
 </RelativeLayout>
