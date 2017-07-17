@@ -6,28 +6,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.vogella.android.usinglibs.R;
-
-import org.w3c.dom.Text;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import com.pinterest.android.pdk.PDKCallback;
 import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKException;
 import com.pinterest.android.pdk.PDKResponse;
+import com.vogella.android.usinglibs.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
  * Created by zxm on 7/16/2017.
  */
 
-public class PinterestByUserActivity extends AppCompatActivity {
+public class PinterestByTagActivity extends AppCompatActivity {
     private PDKClient pdkClient;
     @BindView(R.id.edtHashtag)
     TextView mTxtUsername;
@@ -53,18 +50,18 @@ public class PinterestByUserActivity extends AppCompatActivity {
         scopes.add(PDKClient.PDKCLIENT_PERMISSION_READ_RELATIONSHIPS);
         scopes.add(PDKClient.PDKCLIENT_PERMISSION_WRITE_RELATIONSHIPS);
 
-//        pdkClient.login(this, scopes, new PDKCallback() {
-//            @Override
-//            public void onSuccess(PDKResponse response) {
-//                Log.d(getClass().getName(), response.getData().toString());
-//   //             onLoginSuccess();
-//            }
-//
-//            @Override
-//            public void onFailure(PDKException exception) {
-//                Log.e(getClass().getName(), exception.getDetailMessage());
-//            }
-//        });
+        pdkClient.login(this, scopes, new PDKCallback() {
+            @Override
+            public void onSuccess(PDKResponse response) {
+                Log.d(getClass().getName(), response.getData().toString());
+   //             onLoginSuccess();
+            }
+
+            @Override
+            public void onFailure(PDKException exception) {
+                Log.e(getClass().getName(), exception.getDetailMessage());
+            }
+        });
 
     }
 

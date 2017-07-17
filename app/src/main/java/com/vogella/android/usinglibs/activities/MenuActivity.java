@@ -36,4 +36,11 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent =  new Intent(this, PinterestByUserActivity.class);
         startActivity(intent);
     }
+
+    @OnClick(R.id.buttonPinterestByHashtag)
+    public void OnButtonPinterTag()
+    {
+        Intent intent =  new Intent(this, PinterestByUserActivity.class);
+        startActivity(intent);
+    }
 }
